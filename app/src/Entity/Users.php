@@ -39,7 +39,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    private ?bool $isVerified = null;
+    private ?bool $isVerified = false;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Posts::class, orphanRemoval: true)]
     private Collection $posts;

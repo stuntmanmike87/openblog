@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
-use App\Security\AppCustomAuthenticator;
+use App\Security\UsersAuthenticator;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -34,7 +34,7 @@ final class RegistrationController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         UserAuthenticatorInterface $userAuthenticator,
-        AppCustomAuthenticator $authenticator,
+        UsersAuthenticator $authenticator,
         EntityManagerInterface $entityManager
     ): ?Response
     {
