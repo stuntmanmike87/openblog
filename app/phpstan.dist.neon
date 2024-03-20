@@ -8,8 +8,3 @@ parameters:
         - tests/
     treatPhpDocTypesAsCertain: false
     checkGenericClassInNonGenericObjectType: false
-    ignoreErrors:
-        -
-            message: '#Call to function base64_decode\(\) requires parameter \#2 to be set.#'
-            path: src/Service/JWTService.php
-            count: 2

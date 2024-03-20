@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Security\Voter\BlogPostVoter;
 
 #[Route('/posts')]
 final class PostsController extends AbstractController
@@ -47,6 +48,9 @@ final class PostsController extends AbstractController
     #[Route('/{id}', name: 'app_posts_show', methods: ['GET'])]
     public function show(Posts $post): Response
     {
+        // check for "view" access: calls all voters
+        $this->denyAccessUnlessGranted(BlogPostVoter::VIEW, $post);
+
         return $this->render('posts/show.html.twig', [
             'post' => $post,
         ]);
@@ -55,6 +59,9 @@ final class PostsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_posts_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Posts $post, EntityManagerInterface $entityManager): Response
     {
+        // check for "edit" access: calls all voters
+        $this->denyAccessUnlessGranted(BlogPostVoter::EDIT, $post);
+
         $form = $this->createForm(PostsType::class, $post);
         $form->handleRequest($request);
 
