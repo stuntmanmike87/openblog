@@ -7,7 +7,7 @@ parameters:
     # locale: 'en'
     # This parameter defines the codes of the locales (languages) enabled in the application
     app.notifications.email_sender: anonymous@example.com
-    https://youtu.be/p3Fr6ekX3Fo : '%env(JWT_SECRET)%'
+    app.jwtsecret : '%env(JWT_SECRET)%'
 
 services:
     # default configuration for services in *this* file
