@@ -101,6 +101,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.5",
+        "friendsofphp/php-cs-fixer": "^3.40",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.2",
         "phpstan/phpstan-beberlei-assert": "^1.0",
@@ -120,6 +121,7 @@
         "symfony/web-profiler-bundle": "7.0.*",
         "symplify/config-transformer": "^12.0",
         "tomasvotruba/cognitive-complexity": "^0.2.2",
+        "tomasvotruba/type-coverage": "^0.2.5",
         "zenstruck/foundry": "^1.29"
     }
 }
