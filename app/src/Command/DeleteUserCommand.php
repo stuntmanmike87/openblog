@@ -30,8 +30,7 @@ final class DeleteUserCommand extends Command
         private readonly Validator $validator,
         private readonly UsersRepository $users,
         private readonly LoggerInterface $logger
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -50,14 +49,13 @@ final class DeleteUserCommand extends Command
               <info>php %command.full_name%</info>
             HELP
         );
-        ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
     }
-    
+
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         if (null !== $input->getArgument('nickname')) {

@@ -72,4 +72,6 @@ return RectorConfig::configure()
             PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         ]);
 
+        $rectorConfig->importShortClasses(false);
+
     };

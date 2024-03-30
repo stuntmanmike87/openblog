@@ -20,12 +20,12 @@ final class CategoriesType extends AbstractType
             ->add('slug')
             ->add('parent', EntityType::class, [
                 'class' => Categories::class,
-'choice_label' => 'id',
+                'choice_label' => 'id',
             ])
             ->add('posts', EntityType::class, [
                 'class' => Posts::class,
-'choice_label' => 'id',
-'multiple' => true,
+                'choice_label' => 'id',
+                'multiple' => true,
             ])
         ;
     }

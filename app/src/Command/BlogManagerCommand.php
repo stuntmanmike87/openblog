@@ -37,11 +37,11 @@ final class BlogManagerCommand extends Command
         $arg1 = $input->getArgument('arg1');
 
         /** @var bool|float|int|string|null $arg1 */
-        if ($arg1 !== null) {
+        if (null !== $arg1) {
             $io->note(sprintf('You passed an argument: %s', $arg1));
         }
 
-        if ($input->getOption('option1') !== null) {
+        if (null !== $input->getOption('option1')) {
             // ...
         }
 

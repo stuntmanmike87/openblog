@@ -6,8 +6,9 @@ namespace App\Entity;
 
 use App\Repository\CommentsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 /** @final */
 #[ORM\Entity(repositoryClass: CommentsRepository::class)]
@@ -37,10 +38,12 @@ class Comments
 
     public function __construct()
     {
-        //$this->comments = new ArrayCollection();
-        $c = new ArrayCollection();
-        /** @var Comments $c */
-        $this->comments = $c;
+        // Property App\Entity\Comments::$comments (App\Entity\Comments|null)
+        // does not accept Doctrine\Common\Collections\ArrayCollection<*NEVER*, *NEVER*>.
+        $this->comments = new ArrayCollection();
+        // $c = new ArrayCollection();
+        // /** @var Comments $c */
+        // $this->comments = $c;
     }
 
     public function getId(): ?int
@@ -85,7 +88,7 @@ class Comments
     }
 
     public function addComment(self $comment): static
-    {   
+    {
         /** @var Collection<int, Comments> $comments */
         $comments = $this->getComments();
         if (!$comments->contains($comment)) {

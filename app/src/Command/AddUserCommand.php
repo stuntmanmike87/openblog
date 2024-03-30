@@ -8,16 +8,16 @@ use App\Entity\Users;
 use App\Repository\UsersRepository;
 use App\Utils\Validator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Stopwatch\Stopwatch;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Exception\RuntimeException;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 #[AsCommand(
     name: 'add-user',
@@ -32,8 +32,7 @@ final class AddUserCommand extends Command
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly Validator $validator,
         private readonly UsersRepository $users
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -41,10 +40,10 @@ final class AddUserCommand extends Command
     {
         $this
         ->setHelp($this->getCommandHelp())
-        ->addArgument('nickname', InputArgument::OPTIONAL, 'The nickname of the new user')//username
+        ->addArgument('nickname', InputArgument::OPTIONAL, 'The nickname of the new user')// username
         ->addArgument('password', InputArgument::OPTIONAL, 'The plain password of the new user')
         ->addArgument('email', InputArgument::OPTIONAL, 'The email of the new user')
-        //->addArgument('full-name', InputArgument::OPTIONAL, 'The full name of the new user')
+        // ->addArgument('full-name', InputArgument::OPTIONAL, 'The full name of the new user')
         ->addOption('admin', null, InputOption::VALUE_NONE, 'If set, the user is created as an administrator')
         ;
     }
@@ -68,8 +67,8 @@ final class AddUserCommand extends Command
         /** @var string $email */
         $email = $input->getArgument('email');
 
-        //** @var string $fullName */
-        //$fullName = $input->getArgument('full-name');
+        // ** @var string $fullName */
+        // $fullName = $input->getArgument('full-name');
 
         /** @var bool $isAdmin */
         $isAdmin = $input->getOption('admin');
@@ -79,10 +78,10 @@ final class AddUserCommand extends Command
 
         // create the user and hash its password
         $user = new Users();
-        //$user->setFullName($fullName);
+        // $user->setFullName($fullName);
         $user->setNickname($nickname);
         $user->setEmail($email);
-        //$user->setRoles([$isAdmin ? Users::ROLE_ADMIN : Users::ROLE_USER]);
+        // $user->setRoles([$isAdmin ? Users::ROLE_ADMIN : Users::ROLE_USER]);
 
         // See https://symfony.com/doc/5.4/security.html#registering-the-user-hashing-passwords
         $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);

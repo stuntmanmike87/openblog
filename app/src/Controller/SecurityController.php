@@ -48,32 +48,31 @@ final class SecurityController extends AbstractController
         UsersRepository $usersRepository,
         JWTService $jwt,
         SendEmailService $mail
-    ) : Response
-    {
+    ): Response {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             // Le formulaire est envoyé ET valide
             // On va chercher l'utilisateur dans la base
             /** @var Users $user */
             $user = $usersRepository->findOneByEmail($form->get('email')->getData());
 
             // On vérifie si on a un utilisateur
-            if($user !== null){
+            if (null !== $user) {
                 // On a un utilisateur
                 // On génère un JWT
                 // Header
                 $header = [
                     'typ' => 'JWT',
-                    'alg' => 'HS256'
+                    'alg' => 'HS256',
                 ];
 
                 // Payload
                 /** @var array<string> $payload */
                 $payload = [
-                    'user_id' => $user->getId()
+                    'user_id' => $user->getId(),
                 ];
 
                 // On génère le token
@@ -96,16 +95,17 @@ final class SecurityController extends AbstractController
                 );
 
                 $this->addFlash('success', 'Email envoyé avec succès');
-                return $this->redirectToRoute('app_login');
 
+                return $this->redirectToRoute('app_login');
             }
             // $user est null
             $this->addFlash('danger', 'Un problème est survenu');
+
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/reset_password_request.html.twig', [
-            'requestPassForm' => $form->createView()
+            'requestPassForm' => $form->createView(),
         ]);
     }
 
@@ -117,29 +117,26 @@ final class SecurityController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $em
-    ): Response
-    {
-
+    ): Response {
         // On vérifie si le token est valide (cohérent, pas expiré et signature correcte)
         /** @var string $param */
         $param = $this->getParameter('app.jwtsecret');
-        if($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $param)){
+        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $param)) {
             // Le token est valide
             // On récupère les données (payload)
             $payload = $jwt->getPayload($token);
 
-
             // On récupère le user
             $user = $usersRepository->find($payload['user_id']);
 
-            if($user !== null){
+            if (null !== $user) {
                 $form = $this->createForm(ResetPasswordFormType::class);
 
                 $form->handleRequest($request);
 
                 /** @var string $data */
                 $data = $form->get('password')->getData();
-                if($form->isSubmitted() && $form->isValid()){
+                if ($form->isSubmitted() && $form->isValid()) {
                     $user->setPassword(
                         $passwordHasher->hashPassword($user, $data)
                     );
@@ -147,14 +144,17 @@ final class SecurityController extends AbstractController
                     $em->flush();
 
                     $this->addFlash('success', 'Mot de passe changé avec succès');
+
                     return $this->redirectToRoute('app_login');
                 }
+
                 return $this->render('security/reset_password.html.twig', [
-                    'passForm' => $form->createView()
+                    'passForm' => $form->createView(),
                 ]);
             }
         }
         $this->addFlash('danger', 'Le token est invalide ou a expiré');
+
         return $this->redirectToRoute('app_login');
     }
 }

@@ -10,7 +10,8 @@ use Symfony\Component\Mailer\MailerInterface;
 final class SendEmailService
 {
     public function __construct(private MailerInterface $mailer)
-    {}
+    {
+    }
 
     /** @param array<string> $context */
     public function send(
@@ -19,8 +20,7 @@ final class SendEmailService
         string $subject,
         string $template,
         array $context
-    ): void
-    {
+    ): void {
         // On crée le mail
         $email = (new TemplatedEmail())
             ->from($from)

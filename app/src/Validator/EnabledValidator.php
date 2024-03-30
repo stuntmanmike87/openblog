@@ -13,13 +13,13 @@ final class EnabledValidator extends ConstraintValidator
     {
         /* @var Enabled $constraint */
 
+        /** @var string $value */
         if (null === $value || '' === $value) {
             return;
         }
 
         // TODO: implement the validation here
-        /** @var string $value */
-        $this->context->buildViolation($constraint/* ->message */->validatedBy())
+        $this->context->buildViolation($constraint/* ->message */ ->validatedBy())
             ->setParameter('{{ value }}', $value)
             ->addViolation();
     }

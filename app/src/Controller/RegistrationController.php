@@ -7,8 +7,8 @@ namespace App\Controller;
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
 use App\Repository\UsersRepository;
-use App\Security\UsersAuthenticator;
 use App\Security\EmailVerifier;
+use App\Security\UsersAuthenticator;
 use App\Service\JWTService;
 use App\Service\SendEmailService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,8 +41,7 @@ final class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         JWTService $jwt,
         SendEmailService $mail
-    ): ?Response
-    {
+    ): ?Response {
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -65,13 +64,13 @@ final class RegistrationController extends AbstractController
             // Header
             $header = [
                 'typ' => 'JWT',
-                'alg' => 'HS256'
+                'alg' => 'HS256',
             ];
 
             // Payload
-            /** @var array<string> $payload *///@var (null|int)[] $payload
+            /** @var array<string> $payload */ // @var (null|int)[] $payload
             $payload = [
-                'user_id' => $user->getId()
+                'user_id' => $user->getId(),
             ];
 
             // On génère le token
@@ -92,9 +91,8 @@ final class RegistrationController extends AbstractController
 
             $this->addFlash('success', 'Utilisateur inscrit, veuillez cliquer sur le lien reçu pour confirmer votre adresse e-mail');
 
-
             // generate a signed url and email it to the user
-            /** @var string|\Symfony\Component\Mime\Address $e */
+            /** @var string|Address $e */
             $e = $user->getEmail();
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
@@ -123,7 +121,7 @@ final class RegistrationController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         // validate email confirmation link, sets User::isVerified=true and persists
-        /** @var \Symfony\Component\Security\Core\User\UserInterface $user */
+        /** @var Users $user */ // UserInterface
         $user = $this->getUser();
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
@@ -145,7 +143,7 @@ final class RegistrationController extends AbstractController
         // On vérifie si le token est valide (cohérent, pas expiré et signature correcte)
         /** @var string $param */
         $param = $this->getParameter('app.jwtsecret');
-        if($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $param)){
+        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $param)) {
             // Le token est valide
             // On récupère les données (payload)
             $payload = $jwt->getPayload($token);
@@ -157,15 +155,17 @@ final class RegistrationController extends AbstractController
             /** @var Users $user */
             /** @var bool $verifiedUser */
             $verifiedUser = $user->isVerified();
-            if($user !== null && !$verifiedUser){
+            if (null !== $user && !$verifiedUser) {
                 $user->setIsVerified(true);
                 $em->flush();
 
                 $this->addFlash('success', 'Utilisateur activé');
+
                 return $this->redirectToRoute('app_main');
             }
         }
         $this->addFlash('danger', 'Le token est invalide ou a expiré');
+
         return $this->redirectToRoute('app_login');
     }
 }

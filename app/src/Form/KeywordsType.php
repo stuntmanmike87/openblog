@@ -20,8 +20,8 @@ final class KeywordsType extends AbstractType
             ->add('slug')
             ->add('posts', EntityType::class, [
                 'class' => Posts::class,
-'choice_label' => 'id',
-'multiple' => true,
+                'choice_label' => 'id',
+                'multiple' => true,
             ])
         ;
     }

@@ -74,7 +74,7 @@ final class ListUsersCommand extends Command
         $createUserArray = static function (Users $user): array {
             return [
                 $user->getId(),
-                //$user->getFullName(),
+                // $user->getFullName(),
                 $user->getNickname(),
                 $user->getEmail(),
                 implode(', ', $user->getRoles()),
@@ -92,7 +92,7 @@ final class ListUsersCommand extends Command
         $bufferedOutput = new BufferedOutput();
         $io = new SymfonyStyle($input, $bufferedOutput);
         $io->table(
-            ['ID', /* 'Full Name',  */'Nickname', 'Email', 'Roles'],
+            ['ID', /* 'Full Name', */ 'Nickname', 'Email', 'Roles'],
             $usersAsPlainArrays
         );
 

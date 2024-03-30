@@ -14,8 +14,9 @@ final class MainController extends AbstractController
     public function index(): Response
     {
         $prenoms = ['Thomas', 'Kévin', 'Benoit'];
+
         return $this->render('main/index.html.twig', [
-            'prenoms' => $prenoms
+            'prenoms' => $prenoms,
         ]);
     }
 

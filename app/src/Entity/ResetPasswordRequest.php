@@ -20,14 +20,13 @@ class ResetPasswordRequest implements ResetPasswordRequestInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Users $user = null;
+    // #[ORM\ManyToOne]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?Users $user = null;
 
-    public function __construct(object $user, \DateTimeInterface $expiresAt, string $selector, string $hashedToken)
+    public function __construct(#[ORM\ManyToOne] #[ORM\JoinColumn(nullable: false)] private readonly object $user, \DateTimeInterface $expiresAt, string $selector, string $hashedToken)
     {
-        /** @var Users $user */
-        $this->user = $user;
+        // $this->user = $user;
         $this->initialize($expiresAt, $selector, $hashedToken);
     }
 
@@ -36,10 +35,11 @@ class ResetPasswordRequest implements ResetPasswordRequestInterface
         return $this->id;
     }
 
-    public function getUser(): object//Users
+    public function getUser(): object // Users // object
     {
         /** @var object $user */
         $user = $this->user;
+
         return $user;
     }
 }

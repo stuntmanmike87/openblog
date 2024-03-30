@@ -78,9 +78,9 @@ final class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      */
     #[Route('/reset/{token}', name: 'app_reset_password')]
-    public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, string $token = null): Response
+    public function reset(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator, ?string $token = null): Response
     {
-        if (/* (string)  */$token !== '') {
+        if (/* (string) */ '' !== $token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
             // loaded in a browser and potentially leaking the token to 3rd party JavaScript.
             $this->storeTokenInSession((string) $token);
@@ -118,12 +118,12 @@ final class ResetPasswordController extends AbstractController
             /** @var \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface $user */
             /** @var string $data */
             $data = $form->get('plainPassword')->getData();
+            /** @var Users $user */
             $encodedPassword = $passwordHasher->hashPassword(
                 $user,
                 $data
             );
 
-            /** @var Users $user */
             $user->setPassword($encodedPassword);
             $this->entityManager->flush();
 
@@ -139,13 +139,14 @@ final class ResetPasswordController extends AbstractController
     }
 
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer, TranslatorInterface $translator): RedirectResponse
-    {//** @var Users $user */
+    {
+        // ** @var Users $user */
         $user = $this->entityManager->getRepository(Users::class)->findOneBy([
             'email' => $emailFormData,
         ]);
 
         // Do not reveal whether a user account was found or not.
-        if ($user == null) {//if (!$user)
+        if (null == $user) {// if (!$user)
             return $this->redirectToRoute('app_check_email');
         }
 
@@ -165,7 +166,7 @@ final class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        /** @var string|\Symfony\Component\Mime\Address $e */
+        /** @var string|Address $e */
         $e = $user->getEmail();
         $email = (new TemplatedEmail())
             ->from(new Address('mailer@domain.com', 'MailBot'))

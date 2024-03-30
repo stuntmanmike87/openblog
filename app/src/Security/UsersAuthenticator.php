@@ -50,7 +50,7 @@ final class UsersAuthenticator extends AbstractLoginFormAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
-        if ($targetPath !== '') {
+        if ('' !== $targetPath) {
             return new RedirectResponse((string) $targetPath);
         }
 

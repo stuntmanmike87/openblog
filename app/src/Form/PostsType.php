@@ -24,17 +24,17 @@ final class PostsType extends AbstractType
             ->add('featuredImage')
             ->add('users', EntityType::class, [
                 'class' => Users::class,
-'choice_label' => 'id',
+                'choice_label' => 'id',
             ])
             ->add('categories', EntityType::class, [
                 'class' => Categories::class,
-'choice_label' => 'id',
-'multiple' => true,
+                'choice_label' => 'id',
+                'multiple' => true,
             ])
             ->add('keywords', EntityType::class, [
                 'class' => Keywords::class,
-'choice_label' => 'id',
-'multiple' => true,
+                'choice_label' => 'id',
+                'multiple' => true,
             ])
         ;
     }

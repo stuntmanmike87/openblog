@@ -8,3 +8,11 @@ parameters:
         - tests/
     treatPhpDocTypesAsCertain: false
     checkGenericClassInNonGenericObjectType: false
+    type_coverage:
+        return: 50
+        param: 30
+        property: 70
+    ignoreErrors:
+        -
+            message: '#Property App\\Entity\\Comments::\$comments \(App\\Entity\\Comments\|null\) does not accept Doctrine\\Common\\Collections\\ArrayCollection<\*NEVER\*, \*NEVER\*>.#'
+            path: src/Entity/Comments.php

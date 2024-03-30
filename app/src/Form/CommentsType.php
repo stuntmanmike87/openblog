@@ -21,15 +21,15 @@ final class CommentsType extends AbstractType
             ->add('isReply')
             ->add('comments', EntityType::class, [
                 'class' => Comments::class,
-'choice_label' => 'id',
+                'choice_label' => 'id',
             ])
             ->add('users', EntityType::class, [
                 'class' => Users::class,
-'choice_label' => 'id',
+                'choice_label' => 'id',
             ])
             ->add('posts', EntityType::class, [
                 'class' => Posts::class,
-'choice_label' => 'id',
+                'choice_label' => 'id',
             ])
         ;
     }
