@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
-use Symfony\Component\Console\Exception\InvalidArgumentException;
-use function Symfony\Component\String\u;
 use Nette\Utils\Strings;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+
+use function Symfony\Component\String\u;
 
 final class Validator
 {
     public function validateNickname(?string $nickname): string
     {
-        if ($nickname === null) {
+        if (null === $nickname) {
             throw new InvalidArgumentException('The username can not be empty.');
         }
 
@@ -25,7 +26,7 @@ final class Validator
 
     public function validatePassword(?string $plainPassword): string
     {
-        if ($plainPassword === null) {
+        if (null === $plainPassword) {
             throw new InvalidArgumentException('The password can not be empty.');
         }
 
@@ -38,7 +39,7 @@ final class Validator
 
     public function validateEmail(?string $email): string
     {
-        if ($email === null) {
+        if (null === $email) {
             throw new InvalidArgumentException('The email can not be empty.');
         }
 
