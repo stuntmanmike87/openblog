@@ -29,8 +29,7 @@ final class KeywordsController extends AbstractController
         Request $request,
         SluggerInterface $slugger,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         // On initialise un mot clé
         $keyword = new Keywords();
 
@@ -41,7 +40,7 @@ final class KeywordsController extends AbstractController
         $keywordForm->handleRequest($request);
 
         // On vérifie si le formulaire est envoyé et valide
-        if($keywordForm->isSubmitted() && $keywordForm->isValid()){
+        if ($keywordForm->isSubmitted() && $keywordForm->isValid()) {
             // On crée le slug
             /** @var string $s */
             $s = $slugger->slug((string) $keyword->getName());
@@ -55,6 +54,7 @@ final class KeywordsController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Le mot-clé a été créé');
+
             return $this->redirectToRoute('app_admin_keywords_index');
         }
 

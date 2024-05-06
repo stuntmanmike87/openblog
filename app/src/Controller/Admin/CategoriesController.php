@@ -29,8 +29,7 @@ final class CategoriesController extends AbstractController
         Request $request,
         SluggerInterface $slugger,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         // On initialise une catégorie
         $category = new Categories();
 
@@ -41,7 +40,7 @@ final class CategoriesController extends AbstractController
         $categoryForm->handleRequest($request);
 
         // On vérifie si le formulaire est envoyé et valide
-        if($categoryForm->isSubmitted() && $categoryForm->isValid()){
+        if ($categoryForm->isSubmitted() && $categoryForm->isValid()) {
             // On génère le slug
             /** @var string $s */
             $s = $slugger->slug((string) $category->getName());
@@ -55,6 +54,7 @@ final class CategoriesController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'La catégorie a été créée');
+
             return $this->redirectToRoute('app_admin_categories_index');
         }
 

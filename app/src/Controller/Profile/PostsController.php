@@ -31,15 +31,14 @@ final class PostsController extends AbstractController
         SluggerInterface $slugger,
         EntityManagerInterface $em,
         UsersRepository $usersRepository
-    ): Response
-    {
+    ): Response {
         $post = new Posts();
 
         $form = $this->createForm(AddPostFormType::class, $post);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $s */
             $s = $slugger->slug((string) $post->getTitle());
             $post->setSlug(strtolower($s));
@@ -52,6 +51,7 @@ final class PostsController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'L\'article a été créé');
+
             return $this->redirectToRoute('app_profile_posts_index');
         }
 

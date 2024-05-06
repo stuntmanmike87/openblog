@@ -18,17 +18,17 @@ final class AddCategoriesFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de la catégorie'
+                'label' => 'Nom de la catégorie',
             ])
             ->add('parent', EntityType::class, [
                 'class' => Categories::class,
                 'choice_label' => 'name',
                 'placeholder' => '-- Pas de parent --',
                 'required' => false,
-                'query_builder' => function(CategoriesRepository $cr){
+                'query_builder' => function (CategoriesRepository $cr) {
                     return $cr->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
-                }
+                },
             ])
         ;
     }

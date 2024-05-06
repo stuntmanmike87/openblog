@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\Keywords;
-use App\Entity\Posts;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
