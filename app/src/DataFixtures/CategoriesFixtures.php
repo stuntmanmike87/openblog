@@ -9,38 +9,40 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategoriesFixtures extends Fixture
 {
-    public function __construct(private readonly SluggerInterface $slugger){}
+    public function __construct(private readonly SluggerInterface $slugger)
+    {
+    }
 
-    public function load(ObjectManager $manager):void
+    public function load(ObjectManager $manager): void
     {
         $categories = [
             [
                 'name' => 'France',
-                'parent' => null
+                'parent' => null,
             ],
             [
                 'name' => 'Monde',
-                'parent' => null
+                'parent' => null,
             ],
             [
                 'name' => 'Politique',
-                'parent' => 'France'
+                'parent' => 'France',
             ],
             [
                 'name' => 'Associations',
-                'parent' => 'France'
+                'parent' => 'France',
             ],
             [
                 'name' => 'Economie',
-                'parent' => 'Monde'
-            ]
+                'parent' => 'Monde',
+            ],
         ];
 
-        foreach($categories as $category){   
+        foreach ($categories as $category) {
             $newcategory = new Categories();
             $newcategory->setName($category['name']);
 
-            $slug = strtolower($this->slugger->slug($newcategory->getName()));
+            $slug = strtolower($this->slugger->slug((string) $newcategory->getName()));
 
             $newcategory->setSlug($slug);
 
@@ -50,12 +52,13 @@ class CategoriesFixtures extends Fixture
             $parent = null;
 
             // On vérifie si la catégorie a un parent dans le tableau
-            if($category['parent'] !== null){
+            if (null !== $category['parent']) {
+                /** @var Categories|null $parent */
                 $parent = $this->getReference($category['parent']);
             }
 
             $newcategory->setParent($parent);
-            
+
             $manager->persist($newcategory);
         }
 
