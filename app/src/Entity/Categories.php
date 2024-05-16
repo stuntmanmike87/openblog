@@ -29,9 +29,11 @@ class Categories
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'categories')]
     private ?self $parent = null;
 
+    /** @var Collection<int, Categories> $categories */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
     private Collection $categories;
 
+    /** @var Collection<int, Posts> $posts */
     #[ORM\ManyToMany(targetEntity: Posts::class, mappedBy: 'categories')]
     private Collection $posts;
 

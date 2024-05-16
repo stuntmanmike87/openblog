@@ -24,6 +24,7 @@ class Keywords
     #[ORM\Column(length: 60)]
     private ?string $slug = null;
 
+    /** @var Collection<int, Posts> $posts */
     #[ORM\ManyToMany(targetEntity: Posts::class, mappedBy: 'keywords')]
     private Collection $posts;
 

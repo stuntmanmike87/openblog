@@ -37,12 +37,15 @@ class Posts
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $users = null;
 
+    /** @var Collection<int, Categories> $categories */
     #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'posts')]
     private Collection $categories;
 
+    /** @var Collection<int, Keywords> $keywords */
     #[ORM\ManyToMany(targetEntity: Keywords::class, inversedBy: 'posts')]
     private Collection $keywords;
 
+    /** @var Collection<int, Comments> $comments */
     #[ORM\OneToMany(mappedBy: 'posts', targetEntity: Comments::class, orphanRemoval: true)]
     private Collection $comments;
 

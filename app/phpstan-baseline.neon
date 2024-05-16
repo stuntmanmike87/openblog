@@ -8,5 +8,5 @@ parameters:
         -
             message: '#Property App\\Entity\\Comments::\$comments \(App\\Entity\\Comments\|null\) does not accept Doctrine\\Common\\Collections\\ArrayCollection<\*NEVER\*, \*NEVER\*>.#'
             path: src/Entity/Comments.php
-        -
-            identifier: missingType.generics
+        # -
+        #     identifier: missingType.generics
