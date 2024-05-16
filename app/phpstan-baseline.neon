@@ -10,3 +10,6 @@ parameters:
             path: src/Entity/Comments.php
         # -
         #     identifier: missingType.generics
+
+    doctrine:
+        allowNullablePropertyForRequiredField: true
