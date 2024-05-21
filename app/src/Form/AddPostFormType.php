@@ -14,6 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class AddPostFormType extends AbstractType
 {
@@ -22,6 +25,9 @@ final class AddPostFormType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre de l\'article',
+                'constraints' => [
+                    new NotBlank()
+                ]
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu de l\'article',
@@ -29,6 +35,19 @@ final class AddPostFormType extends AbstractType
             ->add('featuredImage', FileType::class, [
                 'label' => 'Image de l\'article',
                 'mapped' => false,
+                'constraints' => [
+                    new Image(
+                        minWidth: 200,
+                        maxWidth: 4000,
+                        minHeight: 200,
+                        maxHeight: 4000,
+                        allowPortrait: false,
+                        mimeTypes: [
+                            'image/jpeg',
+                            'image/png'
+                        ]
+                    )
+                ]
             ])
             ->add('categories', EntityType::class, [
                 'class' => Categories::class,

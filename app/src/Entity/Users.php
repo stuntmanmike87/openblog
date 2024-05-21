@@ -24,7 +24,13 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank]
+    // #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 25,
+        minMessage: 'Minimum {{ limit }} caractères',
+        maxMessage: 'Maximum {{ limit }} caractères'
+    )]
     private ?string $nickname = null;
 
     /** @var array<string> $roles */ // string[]
@@ -38,7 +44,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Email()]
+    #[Assert\Email(
+        message: 'L\'adresse e-mail {{ value }} est incorrecte'
+    )]
     private ?string $email = null;
 
     #[ORM\Column]

@@ -56,7 +56,7 @@ final class PostsController extends AbstractController
         }
 
         return $this->render('profile/posts/add.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 }
