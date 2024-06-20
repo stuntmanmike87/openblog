@@ -13,9 +13,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class BlogPostVoter extends Voter
 {
-    public const EDIT = 'POST_EDIT';
-    public const VIEW = 'POST_VIEW';
-    public const DELETE = 'POST_DELETE';
+    public const string EDIT = 'POST_EDIT';
+    public const string VIEW = 'POST_VIEW';
+    public const string DELETE = 'POST_DELETE';
 
     /* private $security;
 
