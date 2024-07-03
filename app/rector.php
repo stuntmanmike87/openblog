@@ -54,7 +54,7 @@ return RectorConfig::configure()
 
         $rectorConfig->sets([
             //SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
-            SymfonySetList::SYMFONY_64,//SYMFONY_70,
+            SymfonySetList::SYMFONY_71,
             SymfonySetList::SYMFONY_CODE_QUALITY,
             SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
         ]);
