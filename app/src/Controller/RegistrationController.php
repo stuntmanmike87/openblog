@@ -97,8 +97,7 @@ final class RegistrationController extends AbstractController
         JWTService $jwt,
         UsersRepository $usersRepository,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         // On vérifie si le token est valide (cohérent, pas expiré et signature correcte)
         /** @var string $param */
         $param = $this->getParameter('app.jwtsecret');

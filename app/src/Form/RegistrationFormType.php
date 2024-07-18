@@ -23,8 +23,8 @@ final class RegistrationFormType extends AbstractType
         $builder
             ->add('nickname', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Minimum 3 caractères'
-                ]
+                    'placeholder' => 'Minimum 3 caractères',
+                ],
             ])
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
@@ -52,7 +52,7 @@ final class RegistrationFormType extends AbstractType
                     ]),
                     new PasswordStrength(
                         minScore: PasswordStrength::STRENGTH_STRONG
-                    )
+                    ),
                 ],
             ])
         ;
