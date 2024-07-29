@@ -11,6 +11,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set('app.jwtsecret', '%env(JWT_SECRET)%');
 
+    $parameters->set('uploads_directory', '%kernel.project_dir%/public/uploads/');
+
     $services = $containerConfigurator->services();
 
     $services->defaults()

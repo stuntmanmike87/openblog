@@ -8,7 +8,6 @@ body {
   align-items: center;
   padding: 10px;
 }
-
 .text-red {
   color: red;
 }
@@ -17,4 +16,8 @@ body {
 }
 .text-green {
   color: green;
+}
+
+.preview {
+  display: none;
 }/*# sourceMappingURL=app.css.map */

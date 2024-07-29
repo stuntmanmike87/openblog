@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Profile;
 
 use App\Entity\Posts;
+use App\Entity\Users;
 use App\Form\AddPostFormType;
-use App\Repository\UsersRepository;
+// use App\Repository\UsersRepository;
+use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +33,8 @@ final class PostsController extends AbstractController
         Request $request,
         SluggerInterface $slugger,
         EntityManagerInterface $em,
-        UsersRepository $usersRepository
+        // UsersRepository $usersRepository,
+        PictureService $pictureService
     ): Response {
         $post = new Posts();
 
@@ -43,9 +47,18 @@ final class PostsController extends AbstractController
             $s = $slugger->slug((string) $post->getTitle());
             $post->setSlug(strtolower($s));
 
-            $post->setUsers($usersRepository->find(1));
+            // $post->setUsers($usersRepository->find(1));
+            /** @var Users $users */ // / ** @var Users|null $users */
+            $users = $this->getUser();
+            $post->setUsers($users);
 
-            $post->setFeaturedImage('default.webp');
+            $featuredImage = $form->get('featuredImage')->getData();
+
+            // $post->setFeaturedImage('default.webp');
+            /** @var UploadedFile $featuredImage */
+            $image = $pictureService->square($featuredImage, 'articles', 300);
+
+            $post->setFeaturedImage($image);
 
             $em->persist($post);
             $em->flush();
