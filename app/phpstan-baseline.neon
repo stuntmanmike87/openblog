@@ -13,3 +13,6 @@ parameters:
 
     doctrine:
         allowNullablePropertyForRequiredField: true
+
+    strictRules:
+        booleansInConditions: false
