@@ -42,9 +42,7 @@ final class CategoriesController extends AbstractController
         // On vérifie si le formulaire est envoyé et valide
         if ($categoryForm->isSubmitted() && $categoryForm->isValid()) {
             // On génère le slug
-            /** @var string $s */
-            $s = $slugger->slug((string) $category->getName());
-            $slug = strtolower($s);
+            $slug = strtolower((string) $slugger->slug((string) $category->getName()));
 
             // On ajoute le slug à la catégorie
             $category->setSlug($slug);

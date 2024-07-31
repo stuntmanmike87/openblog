@@ -42,9 +42,7 @@ final class KeywordsController extends AbstractController
         // On vérifie si le formulaire est envoyé et valide
         if ($keywordForm->isSubmitted() && $keywordForm->isValid()) {
             // On crée le slug
-            /** @var string $s */
-            $s = $slugger->slug((string) $keyword->getName());
-            $slug = strtolower($s);
+            $slug = strtolower((string) $slugger->slug((string) $keyword->getName()));
 
             // On attribue le slug à notre mot clé
             $keyword->setSlug($slug);
