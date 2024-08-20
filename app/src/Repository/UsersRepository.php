@@ -42,21 +42,21 @@ final class UsersRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->flush();
     }
 
-    /**
-    * @return Users[] Returns an array of Users objects
-    */
-   public function getUsersByPosts($limit): array
-   {
-       return $this->createQueryBuilder('u')
-           ->addSelect('COUNT(p) as total')
-           ->leftJoin('u.posts', 'p')
-           ->groupBy('u.id')
-           ->orderBy('total', 'desc')
-           ->setMaxResults($limit)
-           ->getQuery()
-           ->getResult()
-       ;
-   }
+    // /**
+    // * @return array<Users> // Users[] Returns an array of Users objects
+    // */
+    public function getUsersByPosts(?int $limit): mixed // array
+    {
+        return $this->createQueryBuilder('u')
+            ->addSelect('COUNT(p) as total')
+            ->leftJoin('u.posts', 'p')
+            ->groupBy('u.id')
+            ->orderBy('total', 'desc')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     //    public function findOneBySomeField($value): ?Users
     //    {
