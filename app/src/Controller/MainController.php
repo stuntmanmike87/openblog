@@ -20,7 +20,7 @@ final class MainController extends AbstractController
 
         $authors = $usersRepository->getUsersByPosts(4);
 
-        return $this->render('main/index.html.twig', compact('lastPost','posts', 'authors'));
+        return $this->render('main/index.html.twig', compact('lastPost', 'posts', 'authors'));
     }
 
     #[Route('/mentions-legales', name: 'app_mentions')]
