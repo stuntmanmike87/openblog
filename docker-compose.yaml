@@ -1,7 +1,7 @@
 services:
   database:
     container_name: database
-    image: mysql:8.0
+    image: mysql:lts
     environment:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_DATABASE: openblog
@@ -11,6 +11,7 @@ services:
       - '4306:3306'
     volumes:
       - ./mysql:/var/lib/mysql
+
   php:
     container_name: php
     build:
@@ -25,8 +26,9 @@ services:
       - ./app:/var/www
     depends_on:
       - database
+
   phpma:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
     container_name: phpmyadmin
     environment:
       PMA_ARBITRARY: 1
@@ -36,6 +38,7 @@ services:
       UPLOAD_LIMIT: 20M
     ports:
       - 8899:80
+
   mailhog:
     image: mailhog/mailhog
     logging:
