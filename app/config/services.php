@@ -25,4 +25,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/../src/Entity/',
         __DIR__ . '/../src/Kernel.php',
     ]);
+
+    $services->load('App\\Controller\\',  __DIR__ . '/../src/Controller/')
+        ->tag('controller.service_arguments');
 };
