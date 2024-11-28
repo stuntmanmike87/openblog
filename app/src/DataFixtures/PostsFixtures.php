@@ -19,7 +19,7 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
     {
         $newPost = new Posts();
         /** @var Users|null $users */
-        $users = $this->getReference('Admin');
+        $users = $this->getReference('Admin', 'users');
         $newPost->setUsers($users);
         $newPost->setTitle('Ceci est un titre');
         $newPost->setSlug(strtolower($this->slugger->slug((string) $newPost->getTitle())));
@@ -31,7 +31,7 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UsersFixtures::class,
