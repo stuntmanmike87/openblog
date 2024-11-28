@@ -54,7 +54,7 @@ class CategoriesFixtures extends Fixture
             // On vérifie si la catégorie a un parent dans le tableau
             if (null !== $category['parent']) {
                 /** @var Categories|null $parent */
-                $parent = $this->getReference($category['parent']);
+                $parent = $this->getReference($category['parent'], 'parent');
             }
 
             $newcategory->setParent($parent);
