@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 final class PictureService
 {
     public function __construct(
-        private ParameterBagInterface $params
+        private ParameterBagInterface $params,
     ) {
     }
 
@@ -71,13 +71,15 @@ final class PictureService
 
         // On crée une nouvelle image vierge
         /** @var \GdImage $resizedPicture */
-        $resizedPicture = imagecreatetruecolor((int) $width, (int) $width);
+        /** @var int<1, max> $width */
+        // ** @var int<1, max> $height */
+        $resizedPicture = imagecreatetruecolor($width, $width);
 
         // On génère le contenu de l'image
         imagecopyresampled($resizedPicture, $sourcePicture, 0, 0, $srcX, $srcY, (int) $width, (int) $width, $squareSize, $squareSize);
 
         // On crée le chemin de stockage
-        /** @var string|null $path0 */
+        /** @var string $path0 */
         $path0 = $this->params->get('uploads_directory');
         $path = $path0.$folder;
 

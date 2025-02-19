@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Users;
-use App\Repository\UsersRepository;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Utils\Validator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -21,7 +21,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 #[AsCommand(
     name: 'add-user',
-    description: 'Creates users and stores them in the database',
+    description: 'Creates user and stores them in the database',
 )]
 final class AddUserCommand extends Command
 {
@@ -31,7 +31,7 @@ final class AddUserCommand extends Command
         private readonly EntityManagerInterface $entityManager,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly Validator $validator,
-        private readonly UsersRepository $users
+        private readonly UserRepository $user,
     ) {
         parent::__construct();
     }
@@ -77,11 +77,11 @@ final class AddUserCommand extends Command
         $this->validateUserData($nickname, $plainPassword, $email/* , $fullName */);
 
         // create the user and hash its password
-        $user = new Users();
+        $user = new User();
         // $user->setFullName($fullName);
         $user->setNickname($nickname);
         $user->setEmail($email);
-        // $user->setRoles([$isAdmin ? Users::ROLE_ADMIN : Users::ROLE_USER]);
+        // $user->setRoles([$isAdmin ? User::ROLE_ADMIN : User::ROLE_USER]);
 
         // See https://symfony.com/doc/5.4/security.html#registering-the-user-hashing-passwords
         $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
@@ -104,7 +104,7 @@ final class AddUserCommand extends Command
     private function validateUserData(string $nickname, string $plainPassword, string $email/* , string $fullName */): void
     {
         // first check if a user with the same nickname already exists.
-        $existingUser = $this->users->findOneBy(['nickname' => $nickname]);
+        $existingUser = $this->user->findOneBy(['nickname' => $nickname]);
 
         if (null !== $existingUser) {
             throw new RuntimeException(sprintf('There is already a user registered with the "%s" nickname.', $nickname));
@@ -116,7 +116,7 @@ final class AddUserCommand extends Command
         $this->validator->validateNickname($nickname);
 
         // check if a user with the same email already exists.
-        $existingEmail = $this->users->findOneBy(['email' => $email]);
+        $existingEmail = $this->user->findOneBy(['email' => $email]);
 
         if (null !== $existingEmail) {
             throw new RuntimeException(sprintf('There is already a user registered with the "%s" email.', $email));
@@ -126,11 +126,11 @@ final class AddUserCommand extends Command
     private function getCommandHelp(): string
     {
         return <<<'HELP'
-            The <info>%command.name%</info> command creates new users and saves them in the database:
+            The <info>%command.name%</info> command creates new user and saves them in the database:
 
               <info>php %command.full_name%</info> <comment>nickname password email</comment>
 
-            By default the command creates regular users. To create administrator users,
+            By default the command creates regular user. To create administrator user,
             add the <comment>--admin</comment> option:
 
               <info>php %command.full_name%</info> nickname password email <comment>--admin</comment>

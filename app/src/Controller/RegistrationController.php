@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Users;
+use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Repository\UsersRepository;
-use App\Security\UsersAuthenticator;
+use App\Repository\UserRepository;
+use App\Security\UserAuthenticator;
 use App\Service\JWTService;
 use App\Service\SendEmailService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,12 +25,12 @@ final class RegistrationController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         UserAuthenticatorInterface $userAuthenticator,
-        UsersAuthenticator $authenticator,
+        UserAuthenticator $authenticator,
         EntityManagerInterface $entityManager,
         JWTService $jwt,
-        SendEmailService $mail
+        SendEmailService $mail,
     ): ?Response {
-        $user = new Users();
+        $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -57,9 +57,7 @@ final class RegistrationController extends AbstractController
 
             // Payload
             /** @var array<string> $payload */ // @var (null|int)[] $payload
-            $payload = [
-                'user_id' => $user->getId(),
-            ];
+            $payload = ['user_id' => strval($user->getId())];
 
             // On génère le token
             /** @var string $param */
@@ -95,8 +93,8 @@ final class RegistrationController extends AbstractController
     public function verifUser(
         string $token,
         JWTService $jwt,
-        UsersRepository $usersRepository,
-        EntityManagerInterface $em
+        UserRepository $userRepository,
+        EntityManagerInterface $em,
     ): Response {
         // On vérifie si le token est valide (cohérent, pas expiré et signature correcte)
         /** @var string $param */
@@ -107,10 +105,10 @@ final class RegistrationController extends AbstractController
             $payload = $jwt->getPayload($token);
 
             // On récupère le user
-            $user = $usersRepository->find($payload['user_id']);
+            $user = $userRepository->find($payload['user_id']);
 
             // On vérifie qu'on a bien un user et qu'il n'est pas déjà activé
-            /** @var Users $user */
+            /** @var User $user */
             /** @var bool $verifiedUser */
             $verifiedUser = $user->isVerified();
             if (null !== $user && !$verifiedUser) {

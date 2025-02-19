@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Users;
-use App\Repository\UsersRepository;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Utils\Validator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'delete-user',
-    description: 'Deletes users from the database',
+    description: 'Deletes user from the database',
 )]
 final class DeleteUserCommand extends Command
 {
@@ -28,8 +28,8 @@ final class DeleteUserCommand extends Command
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly Validator $validator,
-        private readonly UsersRepository $users,
-        private readonly LoggerInterface $logger
+        private readonly UserRepository $user,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }
@@ -39,7 +39,7 @@ final class DeleteUserCommand extends Command
         $this
         ->addArgument('nickname', InputArgument::REQUIRED, 'The nickname of an existing user')
         ->setHelp(<<<'HELP'
-            The <info>%command.name%</info> command deletes users from the database:
+            The <info>%command.name%</info> command deletes user from the database:
 
               <info>php %command.full_name%</info> <comment>nickname</comment>
 
@@ -83,8 +83,8 @@ final class DeleteUserCommand extends Command
         $nickname = $input->getArgument('nickname');
         $nickname = $this->validator->validateNickname($nickname);
 
-        /** @var Users|null $user */
-        $user = $this->users->findOneByNickname($nickname);
+        /** @var User|null $user */
+        $user = $this->user->findOneByNickname($nickname);
 
         if (null === $user) {
             throw new RuntimeException(sprintf('User with nickname "%s" not found.', $nickname));

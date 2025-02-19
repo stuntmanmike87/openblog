@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Users;
+use App\Entity\User;
 use App\Form\ResetPasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
-use App\Repository\UsersRepository;
+use App\Repository\UserRepository;
 use App\Service\JWTService;
 use App\Service\SendEmailService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,9 +45,9 @@ final class SecurityController extends AbstractController
     #[Route('/mot-de-passe-oublie', name: 'forgotten_password')]
     public function forgottenPassword(
         Request $request,
-        UsersRepository $usersRepository,
+        UserRepository $userRepository,
         JWTService $jwt,
-        SendEmailService $mail
+        SendEmailService $mail,
     ): Response {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
 
@@ -56,8 +56,8 @@ final class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Le formulaire est envoyé ET valide
             // On va chercher l'utilisateur dans la base
-            /** @var Users $user */
-            $user = $usersRepository->findOneByEmail($form->get('email')->getData());
+            /** @var User $user */
+            $user = $userRepository->findOneByEmail($form->get('email')->getData());
 
             // On vérifie si on a un utilisateur
             if (null !== $user) {
@@ -71,9 +71,7 @@ final class SecurityController extends AbstractController
 
                 // Payload
                 /** @var array<string> $payload */
-                $payload = [
-                    'user_id' => $user->getId(),
-                ];
+                $payload = ['user_id' => strval($user->getId())];
 
                 // On génère le token
                 /** @var string $param */
@@ -113,10 +111,10 @@ final class SecurityController extends AbstractController
     public function resetPassword(
         string $token,
         JWTService $jwt,
-        UsersRepository $usersRepository,
+        UserRepository $userRepository,
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
     ): Response {
         // On vérifie si le token est valide (cohérent, pas expiré et signature correcte)
         /** @var string $param */
@@ -127,7 +125,7 @@ final class SecurityController extends AbstractController
             $payload = $jwt->getPayload($token);
 
             // On récupère le user
-            $user = $usersRepository->find($payload['user_id']);
+            $user = $userRepository->find($payload['user_id']);
 
             if (null !== $user) {
                 $form = $this->createForm(ResetPasswordFormType::class);
