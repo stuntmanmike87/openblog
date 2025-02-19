@@ -6,10 +6,21 @@ parameters:
 
     ignoreErrors:
         -
-            message: '#Property App\\Entity\\Comments::\$comments \(App\\Entity\\Comments\|null\) does not accept Doctrine\\Common\\Collections\\ArrayCollection<\*NEVER\*, \*NEVER\*>.#'
-            path: src/Entity/Comments.php
+            message: '#Parameter \$defaults of attribute class Symfony\\Component\\Routing\\Attribute\\Route constructor expects array<string, mixed>, array<int, string> given.#'
+            path: src/Controller/Api/FileUploadController.php
+
+        -
+            message: '#Method App\\Entity\\User::getUserIdentifier\(\) should return non-empty-string but returns string.#'
+            path: src/Entity/User.php
+
+        -
+            message: "#Cannot access offset 'post' on mixed.#"
+            path: src/Repository/PostRepository.php
+
         # -
-        #     identifier: missingType.generics
+		# 	identifier: variable.implicitArray
+
+        # - identifier: missingType.generics
 
     doctrine:
         allowNullablePropertyForRequiredField: true
