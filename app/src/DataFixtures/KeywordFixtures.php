@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Keywords;
+use App\Entity\Keyword;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class KeywordsFixtures extends Fixture
+class KeywordFixtures extends Fixture
 {
     public function __construct(private readonly SluggerInterface $slugger)
     {
@@ -20,7 +20,7 @@ class KeywordsFixtures extends Fixture
         ];
 
         foreach ($keywords as $keyword) {
-            $newKeyword = new Keywords();
+            $newKeyword = new Keyword();
             $newKeyword->setName($keyword);
 
             $slug = strtolower($this->slugger->slug((string) $newKeyword->getName()));

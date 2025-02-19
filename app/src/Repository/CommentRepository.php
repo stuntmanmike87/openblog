@@ -4,27 +4,22 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Comments;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Comments>
- *
- * @method Comments|null find($id, $lockMode = null, $lockVersion = null)
- * @method Comments|null findOneBy(array $criteria, array $orderBy = null)
- * @method Comments[]    findAll()
- * @method Comments[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Comment>
  */
-final class CommentsRepository extends ServiceEntityRepository
+final class CommentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Comments::class);
+        parent::__construct($registry, Comment::class);
     }
 
     //    /**
-    //     * @return Comments[] Returns an array of Comments objects
+    //     * @return Comment[] Returns an array of Comment objects
     //     */
     //    public function findByExampleField($value): array
     //    {

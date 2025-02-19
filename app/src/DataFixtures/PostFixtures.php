@@ -2,14 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Posts;
-use App\Entity\Users;
+use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class PostsFixtures extends Fixture implements DependentFixtureInterface
+class PostFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(private readonly SluggerInterface $slugger)
     {
@@ -17,10 +17,10 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        $newPost = new Posts();
-        /** @var Users|null $users */
-        $users = $this->getReference('Admin', 'users');
-        $newPost->setUsers($users);
+        $newPost = new Post();
+
+        $user = $this->getReference('Admin', User::class);
+        $newPost->setUser($user);
         $newPost->setTitle('Ceci est un titre');
         $newPost->setSlug(strtolower($this->slugger->slug((string) $newPost->getTitle())));
         $newPost->setContent('Ceci est le contenu');
@@ -34,7 +34,7 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            UsersFixtures::class,
+            UserFixtures::class,
         ];
     }
 }

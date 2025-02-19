@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\Posts;
+use App\Entity\Category;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Posts>
+ * @extends PersistentProxyObjectFactory<Category>
  */
-final class PostsFactory extends PersistentProxyObjectFactory
+final class CategoryFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -22,22 +22,21 @@ final class PostsFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Posts::class;
+        return Category::class;
     }
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     *
+     * @return array<string, mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array // |callable
     {
         return [
-            'content' => self::faker()->text(),
-            'featuredImage' => self::faker()->text(255),
-            'slug' => self::faker()->text(255),
-            'title' => self::faker()->text(255),
-            'users' => UsersFactory::new(),
+            'name' => self::faker()->text(50),
+            'slug' => self::faker()->text(60),
         ];
     }
 
@@ -47,7 +46,7 @@ final class PostsFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Posts $posts): void {})
+            // ->afterInstantiate(function(Category $category): void {})
         ;
     }
 }

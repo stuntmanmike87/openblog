@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\Categories;
+use App\Entity\Keyword;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Categories>
+ * @extends PersistentProxyObjectFactory<Keyword>
  */
-final class CategoriesFactory extends PersistentProxyObjectFactory
+final class KeywordFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -22,15 +22,17 @@ final class CategoriesFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Categories::class;
+        return Keyword::class;
     }
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     *
+     * @return array<string, mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array // |callable
     {
         return [
             'name' => self::faker()->text(50),
@@ -44,7 +46,7 @@ final class CategoriesFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Categories $categories): void {})
+            // ->afterInstantiate(function(Keyword $keyword): void {})
         ;
     }
 }

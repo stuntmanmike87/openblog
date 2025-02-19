@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Entity\Categories;
-use App\Form\AddCategoriesFormType;
+use App\Entity\Category;
+use App\Form\AddCategoryFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/admin/categories', name: 'app_admin_categories_')]
-final class CategoriesController extends AbstractController
+#[Route('/admin/category', name: 'app_admin_category_')]
+final class CategoryController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(): Response
     {
-        return $this->render('admin/categories/index.html.twig', [
-            'controller_name' => 'CategoriesController',
+        return $this->render('admin/category/index.html.twig', [
+            'controller_name' => 'CategoryController',
         ]);
     }
 
@@ -28,13 +28,13 @@ final class CategoriesController extends AbstractController
     public function addCategory(
         Request $request,
         SluggerInterface $slugger,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
     ): Response {
         // On initialise une catégorie
-        $category = new Categories();
+        $category = new Category();
 
         // On initialise le formulaire
-        $categoryForm = $this->createForm(AddCategoriesFormType::class, $category);
+        $categoryForm = $this->createForm(AddCategoryFormType::class, $category);
 
         // On traite le formulaire
         $categoryForm->handleRequest($request);
@@ -53,11 +53,11 @@ final class CategoriesController extends AbstractController
 
             $this->addFlash('success', 'La catégorie a été créée');
 
-            return $this->redirectToRoute('app_admin_categories_index');
+            return $this->redirectToRoute('app_admin_category_index');
         }
 
         // On affiche la vue
-        return $this->render('admin/categories/add.html.twig', [
+        return $this->render('admin/category/add.html.twig', [
             'categoryForm' => $categoryForm->createView(),
         ]);
     }

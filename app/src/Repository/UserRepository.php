@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Users;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -12,20 +12,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
- * @extends ServiceEntityRepository<Users>
+ * @extends ServiceEntityRepository<User>
  *
- * @implements PasswordUpgraderInterface<Users>
- *
- * @method Users|null find($id, $lockMode = null, $lockVersion = null)
- * @method Users|null findOneBy(array $criteria, array $orderBy = null)
- * @method Users[]    findAll()
- * @method Users[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @implements PasswordUpgraderInterface<User>
  */
-final class UsersRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+final class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Users::class);
+        parent::__construct($registry, User::class);
     }
 
     /**
@@ -33,8 +28,11 @@ final class UsersRepository extends ServiceEntityRepository implements PasswordU
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
-        if (!$user instanceof Users) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+        $values = $user::class;
+        $values = strval($values);
+
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $values));
         }
 
         $user->setPassword($newHashedPassword);
@@ -43,9 +41,9 @@ final class UsersRepository extends ServiceEntityRepository implements PasswordU
     }
 
     // /**
-    // * @return array<Users> // Users[] Returns an array of Users objects
+    // * @return array<User> // User[] Returns an array of User objects
     // */
-    public function getUsersByPosts(?int $limit): mixed // array
+    public function getUserByPosts(?int $limit): mixed // array
     {
         return $this->createQueryBuilder('u')
             ->addSelect('COUNT(p) as total')
@@ -58,7 +56,7 @@ final class UsersRepository extends ServiceEntityRepository implements PasswordU
         ;
     }
 
-    //    public function findOneBySomeField($value): ?Users
+    //    public function findOneBySomeField($value): ?User
     //    {
     //        return $this->createQueryBuilder('u')
     //            ->andWhere('u.exampleField = :val')

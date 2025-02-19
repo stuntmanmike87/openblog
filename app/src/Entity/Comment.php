@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\CommentsRepository;
+use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /** @final */
-#[ORM\Entity(repositoryClass: CommentsRepository::class)]
-class Comments
+#[ORM\Entity(repositoryClass: CommentRepository::class)]
+class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,25 +25,23 @@ class Comments
     #[ORM\Column]
     private ?bool $isReply = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'comments')]
-    private ?self $comments = null;
-
-    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\ManyToOne(inversedBy: 'comment')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Users $users = null;
+    private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\ManyToOne(inversedBy: 'comment')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Posts $posts = null;
+    private ?Post $post = null;
+
+    // #[ORM\ManyToMOne(targetEntity: self::class, inversedBy: 'comment')]
+    // private ?self $comment = null;
+    /** @var Collection<int, Comment> $comments */
+    #[ORM\ManyToMany(targetEntity: Comment::class, inversedBy: 'comment')]
+    private Collection $comments;
 
     public function __construct()
     {
-        // Property App\Entity\Comments::$comments (App\Entity\Comments|null)
-        // does not accept Doctrine\Common\Collections\ArrayCollection<*NEVER*, *NEVER*>.
         $this->comments = new ArrayCollection();
-        // $c = new ArrayCollection();
-        // /** @var Comments $c */
-        // $this->comments = $c;
     }
 
     public function getId(): ?int
@@ -75,25 +73,29 @@ class Comments
         return $this;
     }
 
-    public function getComments(): ?self
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection // ?self
     {
         return $this->comments;
     }
 
-    public function setComments(?self $comments): static
+    public function setComment(?self $comment): static
     {
-        $this->comments = $comments;
+        $comments = $this->getComments();
+        /** @var Comment $comments */
+        $comments = $comment;
 
-        return $this;
+        return $comments;
     }
 
     public function addComment(self $comment): static
     {
-        /** @var Collection<int, Comments> $comments */
         $comments = $this->getComments();
         if (!$comments->contains($comment)) {
             $comments->add($comment);
-            $comment->setComments($this);
+            $comment->setComment($this);
         }
 
         return $this;
@@ -101,38 +103,37 @@ class Comments
 
     public function removeComment(self $comment): static
     {
-        /** @var Collection<int, Comments> $comments */
         $comments = $this->getComments();
         if ($comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
             if ($comment->getComments() === $this) {
-                $comment->setComments(null);
+                $comment->setComment(null);
             }
         }
 
         return $this;
     }
 
-    public function getUsers(): ?Users
+    public function getUser(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?Users $users): static
+    public function setUser(?User $user): static
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getPosts(): ?Posts
+    public function getPost(): ?Post
     {
-        return $this->posts;
+        return $this->post;
     }
 
-    public function setPosts(?Posts $posts): static
+    public function setPost(?Post $post): static
     {
-        $this->posts = $posts;
+        $this->post = $post;
 
         return $this;
     }

@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Categories;
+use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class CategoriesFixtures extends Fixture
+class CategoryFixtures extends Fixture
 {
     public function __construct(private readonly SluggerInterface $slugger)
     {
@@ -39,7 +39,7 @@ class CategoriesFixtures extends Fixture
         ];
 
         foreach ($categories as $category) {
-            $newcategory = new Categories();
+            $newcategory = new Category();
             $newcategory->setName($category['name']);
 
             $slug = strtolower($this->slugger->slug((string) $newcategory->getName()));
@@ -53,8 +53,7 @@ class CategoriesFixtures extends Fixture
 
             // On vérifie si la catégorie a un parent dans le tableau
             if (null !== $category['parent']) {
-                /** @var Categories|null $parent */
-                $parent = $this->getReference($category['parent'], 'parent');
+                $parent = $this->getReference($category['parent'], Category::class);
             }
 
             $newcategory->setParent($parent);

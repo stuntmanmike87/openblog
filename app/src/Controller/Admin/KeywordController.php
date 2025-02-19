@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Entity\Keywords;
+use App\Entity\Keyword;
 use App\Form\AddKeywordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/admin/keywords', name: 'app_admin_keywords_')]
-final class KeywordsController extends AbstractController
+#[Route('/admin/keyword', name: 'app_admin_keyword_')]
+final class KeywordController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(): Response
     {
-        return $this->render('admin/keywords/index.html.twig', [
-            'controller_name' => 'KeywordsController',
+        return $this->render('admin/keyword/index.html.twig', [
+            'controller_name' => 'KeywordController',
         ]);
     }
 
@@ -28,10 +28,10 @@ final class KeywordsController extends AbstractController
     public function addKeyword(
         Request $request,
         SluggerInterface $slugger,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
     ): Response {
         // On initialise un mot clé
-        $keyword = new Keywords();
+        $keyword = new Keyword();
 
         // On initialise le formulaire
         $keywordForm = $this->createForm(AddKeywordFormType::class, $keyword);
@@ -53,11 +53,11 @@ final class KeywordsController extends AbstractController
 
             $this->addFlash('success', 'Le mot-clé a été créé');
 
-            return $this->redirectToRoute('app_admin_keywords_index');
+            return $this->redirectToRoute('app_admin_keyword_index');
         }
 
         // On affiche la vue
-        return $this->render('admin/keywords/add.html.twig', [
+        return $this->render('admin/keyword/add.html.twig', [
             'keywordForm' => $keywordForm->createView(),
         ]);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\PostsRepository;
+use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /** @final */
-#[ORM\Entity(repositoryClass: PostsRepository::class)]
-class Posts
+#[ORM\Entity(repositoryClass: PostRepository::class)]
+class Post
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,20 +33,20 @@ class Posts
     #[ORM\Column(length: 255)]
     private ?string $featuredImage = null;
 
-    #[ORM\ManyToOne(inversedBy: 'posts')]
+    #[ORM\ManyToOne(inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Users $users = null;
+    private ?User $user = null;
 
-    /** @var Collection<int, Categories> $categories */
-    #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'posts')]
+    /** @var Collection<int, Category> $categories */
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'post')]
     private Collection $categories;
 
-    /** @var Collection<int, Keywords> $keywords */
-    #[ORM\ManyToMany(targetEntity: Keywords::class, inversedBy: 'posts')]
+    /** @var Collection<int, Keyword> $keywords */
+    #[ORM\ManyToMany(targetEntity: Keyword::class, inversedBy: 'post')]
     private Collection $keywords;
 
-    /** @var Collection<int, Comments> $comments */
-    #[ORM\OneToMany(mappedBy: 'posts', targetEntity: Comments::class, orphanRemoval: true)]
+    /** @var Collection<int, Comment> $comments */
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
     public function __construct()
@@ -109,27 +109,27 @@ class Posts
         return $this;
     }
 
-    public function getUsers(): ?Users
+    public function getUser(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?Users $users): static
+    public function setUser(?User $user): static
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Categories>
+     * @return Collection<int, Category>
      */
     public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    public function addCategory(Categories $category): static
+    public function addCategory(Category $category): static
     {
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
@@ -138,7 +138,7 @@ class Posts
         return $this;
     }
 
-    public function removeCategory(Categories $category): static
+    public function removeCategory(Category $category): static
     {
         $this->categories->removeElement($category);
 
@@ -146,14 +146,14 @@ class Posts
     }
 
     /**
-     * @return Collection<int, Keywords>
+     * @return Collection<int, Keyword>
      */
     public function getKeywords(): Collection
     {
         return $this->keywords;
     }
 
-    public function addKeyword(Keywords $keyword): static
+    public function addKeyword(Keyword $keyword): static
     {
         if (!$this->keywords->contains($keyword)) {
             $this->keywords->add($keyword);
@@ -162,7 +162,7 @@ class Posts
         return $this;
     }
 
-    public function removeKeyword(Keywords $keyword): static
+    public function removeKeyword(Keyword $keyword): static
     {
         $this->keywords->removeElement($keyword);
 
@@ -170,29 +170,29 @@ class Posts
     }
 
     /**
-     * @return Collection<int, Comments>
+     * @return Collection<int, Comment>
      */
     public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function addComment(Comments $comment): static
+    public function addComment(Comment $comment): static
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setPosts($this);
+            $comment->setPost($this);
         }
 
         return $this;
     }
 
-    public function removeComment(Comments $comment): static
+    public function removeComment(Comment $comment): static
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getPosts() === $this) {
-                $comment->setPosts(null);
+            if ($comment->getPost() === $this) {
+                $comment->setPost(null);
             }
         }
 

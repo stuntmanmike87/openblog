@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
-use App\Entity\Posts;
-use App\Entity\Users;
+use App\Entity\Post;
+use App\Entity\User;
 use App\Form\AddPostFormType;
-// use App\Repository\UsersRepository;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,14 +16,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/profil/articles', name: 'app_profile_posts_')]
-final class PostsController extends AbstractController
+#[Route('/profil/articles', name: 'app_profile_post_')]
+final class PostController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(): Response
     {
-        return $this->render('profile/posts/index.html.twig', [
-            'controller_name' => 'PostsController',
+        return $this->render('profile/post/index.html.twig', [
+            'controller_name' => 'PostController',
         ]);
     }
 
@@ -33,24 +32,22 @@ final class PostsController extends AbstractController
         Request $request,
         SluggerInterface $slugger,
         EntityManagerInterface $em,
-        // UsersRepository $usersRepository,
-        PictureService $pictureService
+        PictureService $pictureService,
     ): Response {
-        $post = new Posts();
+        $post = new Post();
 
         $form = $this->createForm(AddPostFormType::class, $post);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $s */
+            // ** @var string $s */
             $s = $slugger->slug((string) $post->getTitle());
-            $post->setSlug(strtolower($s));
+            $post->setSlug(strtolower((string) $s));
 
-            // $post->setUsers($usersRepository->find(1));
-            /** @var Users $users */ // / ** @var Users|null $users */
-            $users = $this->getUser();
-            $post->setUsers($users);
+            /** @var User $user */
+            $user = $this->getUser();
+            $post->setUser($user);
 
             $featuredImage = $form->get('featuredImage')->getData();
 
@@ -65,10 +62,10 @@ final class PostsController extends AbstractController
 
             $this->addFlash('success', 'L\'article a été créé');
 
-            return $this->redirectToRoute('app_profile_posts_index');
+            return $this->redirectToRoute('app_profile_post_index');
         }
 
-        return $this->render('profile/posts/add.html.twig', [
+        return $this->render('profile/post/add.html.twig', [
             'form' => $form,
         ]);
     }

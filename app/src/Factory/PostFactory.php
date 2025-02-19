@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\Comments;
+use App\Entity\Post;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Comments>
+ * @extends PersistentProxyObjectFactory<Post>
  */
-final class CommentsFactory extends PersistentProxyObjectFactory
+final class PostFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -22,21 +22,24 @@ final class CommentsFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Comments::class;
+        return Post::class;
     }
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     *
+     * @return array<string, mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array // |callable
     {
         return [
             'content' => self::faker()->text(),
-            'isReply' => self::faker()->boolean(),
-            'posts' => PostsFactory::new(),
-            'users' => UsersFactory::new(),
+            'featuredImage' => self::faker()->text(255),
+            'slug' => self::faker()->text(255),
+            'title' => self::faker()->text(255),
+            'user' => UserFactory::new(),
         ];
     }
 
@@ -46,7 +49,7 @@ final class CommentsFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Comments $comments): void {})
+            // ->afterInstantiate(function(Post $post): void {})
         ;
     }
 }

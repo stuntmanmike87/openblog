@@ -4,27 +4,22 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Keywords;
+use App\Entity\Keyword;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Keywords>
- *
- * @method Keywords|null find($id, $lockMode = null, $lockVersion = null)
- * @method Keywords|null findOneBy(array $criteria, array $orderBy = null)
- * @method Keywords[]    findAll()
- * @method Keywords[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Keyword>
  */
-final class KeywordsRepository extends ServiceEntityRepository
+final class KeywordRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Keywords::class);
+        parent::__construct($registry, Keyword::class);
     }
 
     //    /**
-    //     * @return Keywords[] Returns an array of Keywords objects
+    //     * @return Keyword[] Returns an array of Keyword objects
     //     */
     //    public function findByExampleField($value): array
     //    {

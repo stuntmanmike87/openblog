@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\Keywords;
+use App\Entity\Comment;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Keywords>
+ * @extends PersistentProxyObjectFactory<Comment>
  */
-final class KeywordsFactory extends PersistentProxyObjectFactory
+final class CommentFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -22,19 +22,23 @@ final class KeywordsFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Keywords::class;
+        return Comment::class;
     }
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
      * @todo add your default values here
+     *
+     * @return array<string, mixed>
      */
-    protected function defaults(): array|callable
+    protected function defaults(): array // |callable
     {
         return [
-            'name' => self::faker()->text(50),
-            'slug' => self::faker()->text(60),
+            'content' => self::faker()->text(),
+            'isReply' => self::faker()->boolean(),
+            'post' => PostFactory::new(),
+            'user' => UserFactory::new(),
         ];
     }
 
@@ -44,7 +48,7 @@ final class KeywordsFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Keywords $keywords): void {})
+            // ->afterInstantiate(function(Comment $comment): void {})
         ;
     }
 }

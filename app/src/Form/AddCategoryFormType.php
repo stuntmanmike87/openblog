@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Categories;
-use App\Repository\CategoriesRepository;
+use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class AddCategoriesFormType extends AbstractType
+/**
+ * @template AddCategoryForm
+ *
+ * @extends AbstractType<AddCategoryForm>
+ */
+final class AddCategoryFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -21,11 +26,11 @@ final class AddCategoriesFormType extends AbstractType
                 'label' => 'Nom de la catégorie',
             ])
             ->add('parent', EntityType::class, [
-                'class' => Categories::class,
+                'class' => Category::class,
                 'choice_label' => 'name',
                 'placeholder' => '-- Pas de parent --',
                 'required' => false,
-                'query_builder' => function (CategoriesRepository $cr) {
+                'query_builder' => function (CategoryRepository $cr) {
                     return $cr->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
                 },
@@ -36,7 +41,7 @@ final class AddCategoriesFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Categories::class,
+            'data_class' => Category::class,
         ]);
     }
 }
