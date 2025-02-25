@@ -8,7 +8,6 @@ use App\Entity\Post;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-// use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -23,13 +22,6 @@ final class BlogPostVoter extends Voter
     public const string VIEW = 'POST_VIEW';
     public const string DELETE = 'POST_DELETE';
 
-    /* private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    } */
-
     protected function supports(string $attribute, mixed $subject): bool
     {
         // if the attribute isn't one we support, return false
@@ -43,7 +35,11 @@ final class BlogPostVoter extends Voter
         }
 
         return true;
-        // return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE], true) && $subject instanceof Post;
+        // return in_array(
+        //     $attribute,
+        //     [self::EDIT, self::VIEW, self::DELETE],
+        //     true
+        // ) && $subject instanceof Post;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -52,17 +48,13 @@ final class BlogPostVoter extends Voter
         $user = $token->getUser();
 
         // if the user is anonymous, do not grant access
-        if (!$user instanceof UserInterface) { // User
+        if (!$user instanceof UserInterface) {
             return false;
         }
 
-        // if($this->security->isGranted('ROLE_ADMIN')) return true;
-
         // you know $subject is a Post object, thanks to `supports()`
-        // ** @var Post $post */
         $post = $subject;
 
-        /* @var Post $post */
         return match ($attribute) {
             self::VIEW => $this->canView($post, $user),
             self::EDIT => $this->canEdit($post, $user),
@@ -80,19 +72,19 @@ final class BlogPostVoter extends Voter
         }
 
         // the Post object could have, for example, a method `isPrivate()`
-        return false; // return !$post->isPrivate();
+        return false;
+        // return !$post->isPrivate();
     }
 
     private function canEdit(Post $post, User $user): bool
     {
         // this assumes that the Post object has a `getUser()` method // getOwner()
-        return $user === $post->getUser(); // return $user === $post->getOwner();
-        // return $this->security->isGranted('ROLE_PRODUCT_ADMIN');
+        return $user === $post->getUser();
+        // return $user === $post->getOwner();
     }
 
     private function canDelete(Post $post, User $user): bool
     {
         return false;
-        // return $this->security->isGranted('ROLE_ADMIN');
     }
 }
