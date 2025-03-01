@@ -15,6 +15,7 @@
 
         {{ importmap(['app', 'navbar']) }}
         {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
             {% block importmap %}{% endblock %}
         {% endblock %}
     </head>
