@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.3-apache-bullseye
 
 RUN apt-get update \
     # && apt-get install -y zlib1g-dev g++ git libicu-dev zip libzip-dev zip \
