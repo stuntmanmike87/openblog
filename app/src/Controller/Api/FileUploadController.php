@@ -31,7 +31,9 @@ final class FileUploadController
 
         $newName = md5(uniqid()).'.'.$extension;
 
-        $path = $this->params->get('uploads_directory').'content/';
+        /** @var string $uploads_dir */
+        $uploads_dir = $this->params->get('uploads_directory');
+        $path = $uploads_dir.'content/';
 
         if (!file_exists($path)) {
             mkdir($path, 0755, true);
