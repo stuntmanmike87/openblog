@@ -45,11 +45,11 @@ return RectorConfig::configure()
             // SetList::EARLY_RETURN,
             // SetList::INSTANCEOF,
             // SetList::NAMING,
-            SetList::PHP_83,
+            SetList::PHP_84,
             // SetList::PRIVATIZATION,
             // SetList::STRICT_BOOLEANS,
             // SetList::TYPE_DECLARATION,
-            LevelSetList::UP_TO_PHP_83,
+            LevelSetList::UP_TO_PHP_84,
         ]);
 
         $rectorConfig->sets([
