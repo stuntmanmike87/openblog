@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f9c6cb818bc4ccf2eb37badfaf46f9c",
+    "content-hash": "affbb3b78254b50d499888b5795838dc",
     "packages": [
         {
             "name": "composer/semver",
@@ -11362,6 +11362,63 @@
             "time": "2025-02-14T14:27:24+00:00"
         },
         {
+            "name": "symplify/coding-standard",
+            "version": "12.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symplify/coding-standard.git",
+                "reference": "e5a509319100fae418ff6b4b93f84e35196efd71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symplify/coding-standard/zipball/e5a509319100fae418ff6b4b93f84e35196efd71",
+                "reference": "e5a509319100fae418ff6b4b93f84e35196efd71",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofphp/php-cs-fixer": "^3.75.0",
+                "nette/utils": "^4.0",
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.5",
+                "rector/rector": "^2.0.13",
+                "squizlabs/php_codesniffer": "^3.12",
+                "symplify/easy-coding-standard": "^12.5",
+                "symplify/phpstan-extensions": "^12.0",
+                "tomasvotruba/class-leak": "^2.0",
+                "tracy/tracy": "^2.10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symplify\\CodingStandard\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Set of Symplify rules for PHP_CodeSniffer and PHP CS Fixer.",
+            "support": {
+                "issues": "https://github.com/symplify/coding-standard/issues",
+                "source": "https://github.com/symplify/coding-standard/tree/12.4.2"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/rectorphp",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tomasvotruba",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-13T14:34:01+00:00"
+        },
+        {
             "name": "symplify/config-transformer",
             "version": "12.4.0",
             "source": {
@@ -11402,6 +11459,67 @@
                 }
             ],
             "time": "2025-01-22T23:08:18+00:00"
+        },
+        {
+            "name": "symplify/easy-coding-standard",
+            "version": "12.5.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/easy-coding-standard/easy-coding-standard.git",
+                "reference": "451dfeba3770f2d7476468b891a789c451ae4b34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/easy-coding-standard/easy-coding-standard/zipball/451dfeba3770f2d7476468b891a789c451ae4b34",
+                "reference": "451dfeba3770f2d7476468b891a789c451ae4b34",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "conflict": {
+                "friendsofphp/php-cs-fixer": "<3.46",
+                "phpcsstandards/php_codesniffer": "<3.8",
+                "symplify/coding-standard": "<12.1"
+            },
+            "suggest": {
+                "ext-dom": "Needed to support checkstyle output format in class CheckstyleOutputFormatter"
+            },
+            "bin": [
+                "bin/ecs"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Use Coding Standard with 0-knowledge of PHP-CS-Fixer and PHP_CodeSniffer",
+            "keywords": [
+                "Code style",
+                "automation",
+                "fixer",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/easy-coding-standard/easy-coding-standard/issues",
+                "source": "https://github.com/easy-coding-standard/easy-coding-standard/tree/12.5.18"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/rectorphp",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tomasvotruba",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-14T09:38:08+00:00"
         },
         {
             "name": "theseer/tokenizer",
