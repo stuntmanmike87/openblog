@@ -10,10 +10,6 @@ parameters:
             path: src/Controller/Api/FileUploadController.php
 
         -
-            message: '#Method App\\Entity\\User::getUserIdentifier\(\) should return non-empty-string but returns string.#'
-            path: src/Entity/User.php
-
-        -
             message: "#Cannot access offset 'post' on mixed.#"
             path: src/Repository/PostRepository.php
 
@@ -21,6 +17,12 @@ parameters:
 		# 	identifier: variable.implicitArray
 
         # - identifier: missingType.generics
+
+        -
+            message: '#^Call to function method_exists\(\) with ''Symfony\\\\Component\\\\Dotenv\\\\Dotenv'' and ''bootEnv'' will always evaluate to true\.$#'
+            identifier: function.alreadyNarrowedType
+            count: 1
+            path: tests/bootstrap.php
 
     doctrine:
         allowNullablePropertyForRequiredField: true

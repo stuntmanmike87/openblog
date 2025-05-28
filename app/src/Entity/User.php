@@ -89,9 +89,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @see UserInterface
      */
     public function getUserIdentifier(): string
-    { // Method App\Entity\User::getUserIdentifier() ...
-        return (string) $this->nickname;
-    } // ... should return non-empty-string but returns string.
+    {
+        /** @var non-empty-string $userId */
+        $userId = (string) $this->nickname;
+
+        return $userId;
+    }
 
     /**
      * @see UserInterface
